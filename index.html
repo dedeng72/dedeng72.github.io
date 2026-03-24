@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>de_deng's Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
     <style>
-        /* 1. CSS 변수를 활용한 전역 테마 색상 정의 (코드 최적화의 핵심) */
+        /* [핵심 수정 2] 전체 사이트에 '고운 돋움' 서체를 전면 적용하여 투박함을 제거했습니다. */
         :root {
-            /* 1번 사진 기본 테마 (연분홍) */
+            /* 1번 사진 기본 테마 (연분홍) - 폰트 이름을 'Gowun Dodum'으로 통일 */
+            --font-family: 'Gowun Dodum', sans-serif;
             --bg-color: #fff0f5;
             --fog-color: rgba(255, 240, 245, 0.85);
             --shadow-color: rgba(255, 182, 193, 0.4);
             --btn-bg: #ffb6c1;
             --btn-hover-bg: #ff91a4;
             --btn-text: #ffffff;
-            --arrow-color: #d65a6e; /* 짙은 연분홍으로 화살표 가시성 확보 */
+            --arrow-color: #d65a6e;
             --scroll-track: #fdf5f6;
             --scroll-thumb: #ffb6c1;
             --border-color: #ffb6c1;
@@ -34,7 +38,7 @@
             --shadow-color: rgba(0, 0, 0, 0.1);
             --btn-bg: #999999;
             --btn-hover-bg: #777777;
-            --arrow-color: #333333; /* 짙은 회색 */
+            --arrow-color: #333333;
             --scroll-track: #f5f5f7;
             --scroll-thumb: #aaaaaa;
             --border-color: #aaaaaa;
@@ -54,7 +58,7 @@
             --shadow-color: rgba(130, 150, 135, 0.3);
             --btn-bg: #aebdb2;
             --btn-hover-bg: #94a89a;
-            --arrow-color: #3a4f41; /* 짙은 회녹색으로 화살표 가시성 확보 */
+            --arrow-color: #3a4f41;
             --scroll-track: #e8ece8;
             --scroll-thumb: #aebdb2;
             --border-color: #aebdb2;
@@ -67,17 +71,20 @@
             --back-text: #4a5e50;
         }
 
+        /* [삭제] 중복된 폰트 선언 제거 */
+
         /* 2. 전체적인 페이지 스타일 (변수 적용) */
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Noto Sans KR', sans-serif;
+            /* [핵심 수정 3] body 전체에 고운 돋움 서체 변수를 적용하여 서체를 통일했습니다. */
+            font-family: var(--font-family);
             overflow: hidden;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-color); 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -88,10 +95,7 @@
         #profile-info:target ~ .main-wrapper::before {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-color: var(--fog-color);
             z-index: -1;
             animation: backdropFadeIn 0.8s ease-in-out forwards;
@@ -99,28 +103,25 @@
         }
 
         @keyframes backdropFadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* 3. 메인 프로필 카드 스타일 */
+        /* 3. 메인 프로필 카드 스타일 (가독성 향상을 위해 줄 간격 조정) */
         .main-wrapper {
             position: relative;
             width: 380px;
             height: 650px;
             background: #fff;
             border-radius: 20px;
-            box-shadow: 0 10px 25px var(--shadow-color);
+            box-shadow: 0 10px 25px var(--shadow-color); 
             overflow: hidden;
             display: flex;
             flex-direction: column;
             z-index: 10;
             transition: box-shadow 0.8s ease-in-out;
+            /* [강조 효과] 모바일 가독성을 위해 전체 줄 간격을 살짝 넓혔습니다. */
+            line-height: 1.6;
         }
 
         /* 4. 상단 이미지 슬라이더 영역 */
@@ -141,7 +142,7 @@
             top: 50%;
             transform: translateY(-50%);
             background-color: rgba(255, 255, 255, 0.75);
-            color: var(--arrow-color);
+            color: var(--arrow-color); 
             border: none;
             width: 36px;
             height: 36px;
@@ -156,17 +157,12 @@
             box-shadow: 0 3px 6px rgba(0,0,0,0.15);
         }
 
-            .slider-btn:hover {
-                background-color: rgba(255, 255, 255, 0.98);
-            }
-
-        .left-btn {
-            left: 15px;
+        .slider-btn:hover {
+            background-color: rgba(255, 255, 255, 0.98);
         }
 
-        .right-btn {
-            right: 15px;
-        }
+        .left-btn { left: 15px; }
+        .right-btn { right: 15px; }
 
         /* 정보창 열림 시 슬라이더 버튼 숨김 */
         #profile-info:target ~ .main-wrapper .profile-image-container .slider-btn {
@@ -200,13 +196,13 @@
             z-index: 10;
         }
 
-            .profile-btn:hover {
-                background-color: var(--btn-hover-bg);
-                transform: translateY(-2px);
-                box-shadow: 0 6px 15px var(--shadow-color);
-            }
+        .profile-btn:hover {
+            background-color: var(--btn-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px var(--shadow-color);
+        }
 
-        /* 6. 상세 정보 팝업 창 영역 */
+        /* 6. 상세 정보 팝업 창 영역 (상단 여백 조정) */
         .profile-details {
             position: absolute;
             bottom: -100%;
@@ -225,51 +221,44 @@
             overflow-y: auto;
             opacity: 0;
             transform: scale(0.5);
-            transition: bottom 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.5s ease-in-out, box-shadow 0.8s ease-in-out;
+            transition: bottom 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
+                        transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), 
+                        opacity 0.5s ease-in-out,
+                        box-shadow 0.8s ease-in-out;
             z-index: 10;
         }
 
-            /* 스크롤바 디자인 변경 */
-            .profile-details::-webkit-scrollbar {
-                width: 8px;
-            }
+        /* 스크롤바 디자인 변경 */
+        .profile-details::-webkit-scrollbar {
+            width: 8px;
+        }
 
-            .profile-details::-webkit-scrollbar-track {
-                background: var(--scroll-track);
-                border-radius: 10px;
-                transition: background 0.8s;
-            }
+        .profile-details::-webkit-scrollbar-track {
+            background: var(--scroll-track);
+            border-radius: 10px;
+            transition: background 0.8s;
+        }
 
-            .profile-details::-webkit-scrollbar-thumb {
-                background: var(--scroll-thumb);
-                border-radius: 10px;
-                transition: background 0.8s;
-            }
+        .profile-details::-webkit-scrollbar-thumb {
+            background: var(--scroll-thumb);
+            border-radius: 10px;
+            transition: background 0.8s;
+        }
 
-            .profile-details h2 {
-                margin-top: 0;
-                color: #333;
-                border-bottom: 2px solid var(--border-color);
-                padding-bottom: 10px;
-                padding-right: 30px;
-                transition: border-color 0.8s;
-            }
+        .profile-details h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            padding-right: 30px;
+            transition: border-color 0.8s;
+        }
 
         /* 정보 항목 팝업 애니메이션 */
         @keyframes strongPopIn {
-            0% {
-                opacity: 0;
-                transform: translateX(-50px) scale(0.8);
-            }
-
-            70% {
-                transform: translateX(10px) scale(1.05);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
+            0% { opacity: 0; transform: translateX(-50px) scale(0.8); }
+            70% { transform: translateX(10px) scale(1.05); }
+            100% { opacity: 1; transform: translateX(0) scale(1); }
         }
 
         .info-group {
@@ -280,9 +269,9 @@
             transition: border-color 0.8s;
         }
 
-            .info-group:last-child {
-                border-bottom: none;
-            }
+        .info-group:last-child {
+            border-bottom: none;
+        }
 
         .info-item {
             margin: 10px 0;
@@ -292,11 +281,11 @@
             flex-direction: column;
         }
 
-            .info-item.row-direction {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
+        .info-item.row-direction {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
 
         .info-label {
             font-weight: bold;
@@ -310,9 +299,8 @@
             color: #444;
         }
 
-        /* 소개 문구 배경 디자인 */
+        /* 소개 문구 배경 디자인 (폰트 스타일 조정 제거) */
         .intro-text .info-value {
-            font-style: italic;
             color: var(--intro-text);
             text-align: center;
             word-break: keep-all;
@@ -322,6 +310,8 @@
             border-radius: 10px;
             box-shadow: inset 0 2px 5px var(--intro-shadow);
             transition: background-color 0.8s, color 0.8s, box-shadow 0.8s;
+            /* [핵심 수정 4] '고운 돋움' 자체의 느낌을 살리기 위해 인위적인 기울임(italic) 효과를 제거했습니다. */
+            font-style: normal; 
         }
 
         /* 7. 버튼 클릭에 따른 애니메이션 트리거 */
@@ -346,22 +336,11 @@
         #profile-info:target ~ .main-wrapper .profile-details .info-group {
             animation: strongPopIn 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
-
-            #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(1) {
-                animation-delay: 0.2s;
-            }
-
-            #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(2) {
-                animation-delay: 0.35s;
-            }
-
-            #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(3) {
-                animation-delay: 0.5s;
-            }
-
-            #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(4) {
-                animation-delay: 0.65s;
-            }
+        
+        #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(1) { animation-delay: 0.2s; }
+        #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(2) { animation-delay: 0.35s; }
+        #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(3) { animation-delay: 0.5s; }
+        #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(4) { animation-delay: 0.65s; }
 
         /* 8. 뒤로가기 버튼 스타일 및 테마 적용 */
         .back-btn {
@@ -385,10 +364,10 @@
             z-index: 20;
         }
 
-            .back-btn:hover {
-                background: var(--back-hover-bg);
-                transform: scale(1.1);
-            }
+        .back-btn:hover {
+            background: var(--back-hover-bg);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -464,34 +443,34 @@
 
     <script>
         const images = [
-        'photo1.png', // 1번 사진 (핑크 테마)
-        'photo2.png', // 2번 사진 (회색 테마)
-        'photo3.png'  // 3번 사진 (연초록 테마)
+            'photo1.png', // 1번 사진 (핑크 테마)
+            'photo2.png', // 2번 사진 (회색 테마)
+            'photo3.png'  // 3번 사진 (연초록 테마)
         ];
-
+        
         let currentImageIndex = 0;
 
         function changeImage(direction) {
-        currentImageIndex += direction;
+            currentImageIndex += direction;
+            
+            // 인덱스 범위 이탈 방지
+            if (currentImageIndex < 0) currentImageIndex = 0;
+            if (currentImageIndex >= images.length) currentImageIndex = images.length - 1;
+            
+            // 배경 이미지 교체
+            document.getElementById('image-slider').style.backgroundImage = `url('${images[currentImageIndex]}')`;
 
-        // 인덱스 범위 이탈 방지
-        if (currentImageIndex < 0) currentImageIndex = 0;
-        if (currentImageIndex >= images.length) currentImageIndex = images.length - 1;
+            // 화살표 숨김 제어 (최적화)
+            document.getElementById('left-btn').style.display = currentImageIndex === 0 ? 'none' : 'flex';
+            document.getElementById('right-btn').style.display = currentImageIndex === images.length - 1 ? 'none' : 'flex';
 
-        // 배경 이미지 교체
-        document.getElementById('image-slider').style.backgroundImage = `url('${images[currentImageIndex]}')`;
-
-        // 화살표 숨김 제어 (최적화)
-        document.getElementById('left-btn').style.display = currentImageIndex === 0 ? 'none' : 'flex';
-        document.getElementById('right-btn').style.display = currentImageIndex === images.length - 1 ? 'none' : 'flex';
-
-        // 테마 클래스 제어 (최적화)
-        document.body.className = ''; // 기존 테마 모두 제거
-        if (currentImageIndex === 1) {
-        document.body.classList.add('theme-gray');
-        } else if (currentImageIndex === 2) {
-        document.body.classList.add('theme-green');
-        }
+            // 테마 클래스 제어 (최적화)
+            document.body.className = ''; // 기존 테마 모두 제거
+            if (currentImageIndex === 1) {
+                document.body.classList.add('theme-gray');
+            } else if (currentImageIndex === 2) {
+                document.body.classList.add('theme-green');
+            }
         }
     </script>
 </body>
