@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>de_deng's Profile</title>
+    <style>
+        /* 1. CSS 변수를 활용한 전역 테마 색상 정의 (코드 최적화의 핵심) */
+        :root {
+            /* 1번 사진 기본 테마 (연분홍) */
+            --bg-color: #fff0f5;
+            --fog-color: rgba(255, 240, 245, 0.85);
+            --shadow-color: rgba(255, 182, 193, 0.4);
+            --btn-bg: #ffb6c1;
+            --btn-hover-bg: #ff91a4;
+            --btn-text: #ffffff;
+            --arrow-color: #d65a6e; /* 짙은 연분홍으로 화살표 가시성 확보 */
+            --scroll-track: #fdf5f6;
+            --scroll-thumb: #ffb6c1;
+            --border-color: #ffb6c1;
+            --label-color: #ff91a4;
+            --intro-bg: #fff0f5;
+            --intro-text: #ff6b81;
+            --intro-shadow: rgba(255, 182, 193, 0.2);
+            --back-bg: #fff0f5;
+            --back-hover-bg: #ffe4e1;
+            --back-text: #ff91a4;
+        }
+
+        /* 2번 사진 테마 (말랑한 회색빛 하양) */
+        body.theme-gray {
+            --bg-color: #f2f2f5;
+            --fog-color: rgba(242, 242, 245, 0.85);
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --btn-bg: #999999;
+            --btn-hover-bg: #777777;
+            --arrow-color: #333333; /* 짙은 회색 */
+            --scroll-track: #f5f5f7;
+            --scroll-thumb: #aaaaaa;
+            --border-color: #aaaaaa;
+            --label-color: #666666;
+            --intro-bg: #f7f7f7;
+            --intro-text: #555555;
+            --intro-shadow: rgba(0, 0, 0, 0.05);
+            --back-bg: #f7f7f7;
+            --back-hover-bg: #e0e0e0;
+            --back-text: #666666;
+        }
+
+        /* 3번 사진 테마 (차분하고 연한 회녹색 - Sage Green) */
+        body.theme-green {
+            --bg-color: #e8ece8;
+            --fog-color: rgba(232, 236, 232, 0.85);
+            --shadow-color: rgba(130, 150, 135, 0.3);
+            --btn-bg: #aebdb2;
+            --btn-hover-bg: #94a89a;
+            --arrow-color: #3a4f41; /* 짙은 회녹색으로 화살표 가시성 확보 */
+            --scroll-track: #e8ece8;
+            --scroll-thumb: #aebdb2;
+            --border-color: #aebdb2;
+            --label-color: #5b7062;
+            --intro-bg: #f1f4f1;
+            --intro-text: #4a5e50;
+            --intro-shadow: rgba(130, 150, 135, 0.15);
+            --back-bg: #f1f4f1;
+            --back-hover-bg: #dee5df;
+            --back-text: #4a5e50;
+        }
+
+        /* 2. 전체적인 페이지 스타일 (변수 적용) */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow: hidden;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.8s ease-in-out;
+        }
+
+        /* 정보창 활성화 시 안개 효과 */
+        #profile-info:target ~ .main-wrapper::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--fog-color);
+            z-index: -1;
+            animation: backdropFadeIn 0.8s ease-in-out forwards;
+            transition: background-color 0.8s ease-in-out;
+        }
+
+        @keyframes backdropFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 3. 메인 프로필 카드 스타일 */
+        .main-wrapper {
+            position: relative;
+            width: 380px;
+            height: 650px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px var(--shadow-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+            transition: box-shadow 0.8s ease-in-out;
+        }
+
+        /* 4. 상단 이미지 슬라이더 영역 */
+        .profile-image-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            background-image: url('photo1.png');
+            background-size: cover;
+            background-position: center;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform-origin: top;
+        }
+
+        /* 슬라이더 좌우 이동 버튼 스타일 */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.75);
+            color: var(--arrow-color);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.1em;
+            cursor: pointer;
+            z-index: 15;
+            transition: background-color 0.3s, opacity 0.5s, color 0.8s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+            .slider-btn:hover {
+                background-color: rgba(255, 255, 255, 0.98);
+            }
+
+        .left-btn {
+            left: 15px;
+        }
+
+        .right-btn {
+            right: 15px;
+        }
+
+        /* 정보창 열림 시 슬라이더 버튼 숨김 */
+        #profile-info:target ~ .main-wrapper .profile-image-container .slider-btn {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* 5. 중앙 접속 버튼 영역 */
+        .button-area {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* 메인 프로필 접속 버튼 디자인 */
+        .profile-btn {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            transition: background-color 0.8s, transform 0.2s, box-shadow 0.8s;
+            text-decoration: none;
+            z-index: 10;
+        }
+
+            .profile-btn:hover {
+                background-color: var(--btn-hover-bg);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px var(--shadow-color);
+            }
+
+        /* 6. 상세 정보 팝업 창 영역 */
+        .profile-details {
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 85%;
+            background-color: #fff;
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            box-shadow: 0 -10px 30px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            padding-top: 50px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: bottom 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.5s ease-in-out, box-shadow 0.8s ease-in-out;
+            z-index: 10;
+        }
+
+            /* 스크롤바 디자인 변경 */
+            .profile-details::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            .profile-details::-webkit-scrollbar-track {
+                background: var(--scroll-track);
+                border-radius: 10px;
+                transition: background 0.8s;
+            }
+
+            .profile-details::-webkit-scrollbar-thumb {
+                background: var(--scroll-thumb);
+                border-radius: 10px;
+                transition: background 0.8s;
+            }
+
+            .profile-details h2 {
+                margin-top: 0;
+                color: #333;
+                border-bottom: 2px solid var(--border-color);
+                padding-bottom: 10px;
+                padding-right: 30px;
+                transition: border-color 0.8s;
+            }
+
+        /* 정보 항목 팝업 애니메이션 */
+        @keyframes strongPopIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px) scale(0.8);
+            }
+
+            70% {
+                transform: translateX(10px) scale(1.05);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .info-group {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+            opacity: 0;
+            transition: border-color 0.8s;
+        }
+
+            .info-group:last-child {
+                border-bottom: none;
+            }
+
+        .info-item {
+            margin: 10px 0;
+            font-size: 1.05em;
+            color: #555;
+            display: flex;
+            flex-direction: column;
+        }
+
+            .info-item.row-direction {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+        .info-label {
+            font-weight: bold;
+            color: var(--label-color);
+            margin-bottom: 5px;
+            transition: color 0.8s;
+        }
+
+        .info-value {
+            line-height: 1.5;
+            color: #444;
+        }
+
+        /* 소개 문구 배경 디자인 */
+        .intro-text .info-value {
+            font-style: italic;
+            color: var(--intro-text);
+            text-align: center;
+            word-break: keep-all;
+            font-size: 0.95em;
+            padding: 15px;
+            background-color: var(--intro-bg);
+            border-radius: 10px;
+            box-shadow: inset 0 2px 5px var(--intro-shadow);
+            transition: background-color 0.8s, color 0.8s, box-shadow 0.8s;
+        }
+
+        /* 7. 버튼 클릭에 따른 애니메이션 트리거 */
+        #profile-info:target ~ .main-wrapper .profile-details {
+            bottom: 0;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #profile-info:target ~ .main-wrapper .profile-image-container {
+            height: 120px;
+            border-bottom-left-radius: 50%;
+            border-bottom-right-radius: 50%;
+            transform: scale(0.95);
+        }
+
+        #profile-info:target ~ .main-wrapper .button-area {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #profile-info:target ~ .main-wrapper .profile-details .info-group {
+            animation: strongPopIn 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+            #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(1) {
+                animation-delay: 0.2s;
+            }
+
+            #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(2) {
+                animation-delay: 0.35s;
+            }
+
+            #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(3) {
+                animation-delay: 0.5s;
+            }
+
+            #profile-info:target ~ .main-wrapper .profile-details .info-group:nth-of-type(4) {
+                animation-delay: 0.65s;
+            }
+
+        /* 8. 뒤로가기 버튼 스타일 및 테마 적용 */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--back-bg);
+            border: none;
+            color: var(--back-text);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.8s, transform 0.2s, color 0.8s;
+            z-index: 20;
+        }
+
+            .back-btn:hover {
+                background: var(--back-hover-bg);
+                transform: scale(1.1);
+            }
+    </style>
+</head>
+<body>
+
+    <div id="profile-info"></div>
+
+    <div class="main-wrapper">
+        <div class="profile-image-container" id="image-slider">
+            <button class="slider-btn left-btn" id="left-btn" onclick="changeImage(-1)" style="display: none;">&#10094;</button>
+            <button class="slider-btn right-btn" id="right-btn" onclick="changeImage(1)">&#10095;</button>
+        </div>
+
+        <div class="button-area">
+            <a href="#profile-info" class="profile-btn">de_deng's Profile</a>
+        </div>
+
+        <div class="profile-details">
+            <a href="#" class="back-btn">✕</a>
+
+            <h2>개인 정보</h2>
+
+            <div class="info-group">
+                <div class="info-item row-direction">
+                    <span class="info-label">닉네임</span>
+                    <span class="info-value">de_deng</span>
+                </div>
+                <div class="info-item row-direction">
+                    <span class="info-label">Discord ID</span>
+                    <span class="info-value">dengdneg</span>
+                </div>
+                <div class="info-item row-direction">
+                    <span class="info-label">생일</span>
+                    <span class="info-value">12/18</span>
+                </div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-item intro-text">
+                    <span class="info-value">
+                        "가상 세계를 부유하는 한 조각 고독한 수수께끼.<br>
+                        CS2의 총성 속에 숨은 ISFP의 수줍은 총알 피하기...<br>
+                        VRChat에선 누구보다 뜨겁지만 현실에선 회피형 완벽주의자.<br>
+                        허무주의의 어둠 속에서도 한 알의 딸기처럼 달콤한 순간을 찾아...<br>
+                        나는, 그냥 de_deng. 끝없는 루프의 여행자. ☄️"
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-item">
+                    <span class="info-label">MBTI : ISFP</span>
+                    <span class="info-value">온화하고 다정하며 타인의 감정에 공감을 잘합니다. 회피를 잘해요. 규칙에 얽매이기보다는 현재의 삶과 순간을 즐기며 자유로움을 추구하는 성향을 가지고 있습니다.</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">관심 및 취미 분야</span>
+                    <span class="info-value">누워있는걸 좋아해요.</span>
+                </div>
+            </div>
+
+            <div class="info-group">
+                <div class="info-item">
+                    <span class="info-label">즐겨하는 게임</span>
+                    <span class="info-value"><b>Counter-Strike 2 (CS2)</b><br><b>VRChat</b></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">선호하는 취향</span>
+                    <span class="info-value">가장 좋아하는 과일은 <b>딸기</b>입니다.</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const images = [
+        'photo1.png', // 1번 사진 (핑크 테마)
+        'photo2.png', // 2번 사진 (회색 테마)
+        'photo3.png'  // 3번 사진 (연초록 테마)
+        ];
+
+        let currentImageIndex = 0;
+
+        function changeImage(direction) {
+        currentImageIndex += direction;
+
+        // 인덱스 범위 이탈 방지
+        if (currentImageIndex < 0) currentImageIndex = 0;
+        if (currentImageIndex >= images.length) currentImageIndex = images.length - 1;
+
+        // 배경 이미지 교체
+        document.getElementById('image-slider').style.backgroundImage = `url('${images[currentImageIndex]}')`;
+
+        // 화살표 숨김 제어 (최적화)
+        document.getElementById('left-btn').style.display = currentImageIndex === 0 ? 'none' : 'flex';
+        document.getElementById('right-btn').style.display = currentImageIndex === images.length - 1 ? 'none' : 'flex';
+
+        // 테마 클래스 제어 (최적화)
+        document.body.className = ''; // 기존 테마 모두 제거
+        if (currentImageIndex === 1) {
+        document.body.classList.add('theme-gray');
+        } else if (currentImageIndex === 2) {
+        document.body.classList.add('theme-green');
+        }
+        }
+    </script>
+</body>
+</html>
